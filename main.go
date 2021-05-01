@@ -1,123 +1,54 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
-	"log"
-	"net/http"
-	"net/url"
-	"path"
-	"path/filepath"
-
-	"github.com/evanw/esbuild/pkg/api"
+	"github.com/rojasleon/playground/router"
 )
 
+// type Podcast struct {
+// 	ID     primitive.ObjectID `bson:"_id,omitempty"`
+// 	Title  string             `bson:"title,omitempty"`
+// 	Author string             `bson:"author,omitempty"`
+// 	Tags   []string           `bson:"tags,omitempty"`
+// }
+
+// type Episode struct {
+// 	ID          primitive.ObjectID `bson:"_id,omitempty"`
+// 	Podcast     primitive.ObjectID `bson:"podcast,omitempty"`
+// 	Title       string             `bson:"title,omitempty"`
+// 	Description string             `bson:"description,omitempty"`
+// 	Duration    int32              `bson:"duration,omitempty"`
+// }
+
 func main() {
-	result := api.Build(api.BuildOptions{
-		EntryPoints: []string{"index.js"},
-		Bundle:      true,
-		Write:       false,
-		Plugins:     []api.Plugin{unpkgPathPlugin, fetchPlugin(`import pkg from 'nested-test-pkg'`)},
-		LogLevel:    api.LogLevelDebug,
-		Define:      map[string]string{"process.env.NODE_ENV": `"production"`},
-	})
+	router.InitializeRouter()
+	// client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
-	fmt.Println(string(result.OutputFiles[0].Contents))
-}
+	// ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	// err = client.Connect(ctx)
 
-var unpkgPathPlugin = api.Plugin{
-	Name: "unpkg-path-plugin",
-	Setup: func(build api.PluginBuild) {
-		build.OnResolve(api.OnResolveOptions{Filter: `(^index\.js$)`},
-			func(args api.OnResolveArgs) (api.OnResolveResult, error) {
-				return api.OnResolveResult{
-					Path:      args.Path,
-					Namespace: "a",
-				}, nil
-			})
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
-		// relative paths
-		build.OnResolve(api.OnResolveOptions{Filter: `^\.+\/`, Namespace: "a"},
-			func(args api.OnResolveArgs) (api.OnResolveResult, error) {
-				// dir := filepath.Dir()
+	// defer client.Disconnect(ctx)
 
-				base, err := url.Parse(args.ResolveDir)
-				if err != nil {
-					return api.OnResolveResult{}, nil
-				}
+	// quickstartDatabase := client.Database("quickstart")
+	// podcastsCollection := quickstartDatabase.Collection("podcasts")
+	// // episodesCollection := quickstartDatabase.Collection("episodes")
 
-				relative, err := url.Parse(args.Path)
-				if err != nil {
-					return api.OnResolveResult{}, nil
-				}
+	// podcast := Podcast{
+	// 	Title:  "The Polyglot Developer",
+	// 	Author: "Nic Raboy",
+	// 	Tags:   []string{"development", "programming", "coding"},
+	// }
 
-				url, err := url.Parse("https://unpkg.com" + path.Join(relative.ResolveReference(base).String(), relative.String()))
+	// insertResult, err := podcastsCollection.InsertOne(ctx, podcast)
 
-				if err != nil {
-					return api.OnResolveResult{}, nil
-				}
-
-				return api.OnResolveResult{
-					Namespace: "a",
-					Path:      url.String(),
-				}, nil
-			})
-
-		build.OnResolve(api.OnResolveOptions{Filter: ".*", Namespace: "a"},
-			func(args api.OnResolveArgs) (api.OnResolveResult, error) {
-				return api.OnResolveResult{
-					Path:      "https://unpkg.com/" + args.Path,
-					Namespace: "a",
-				}, nil
-			},
-		)
-	},
-}
-
-var fetchPlugin = func(rawCode string) api.Plugin {
-	return api.Plugin{
-		Name: "fetch-plugin",
-		Setup: func(build api.PluginBuild) {
-			build.OnLoad(api.OnLoadOptions{Filter: `(^index\.js$)`, Namespace: "a"},
-				func(args api.OnLoadArgs) (api.OnLoadResult, error) {
-					return api.OnLoadResult{
-						Contents: &rawCode,
-						Loader:   api.LoaderJSX,
-					}, nil
-				})
-
-			build.OnLoad(api.OnLoadOptions{Filter: `.*`, Namespace: "a"},
-				func(args api.OnLoadArgs) (api.OnLoadResult, error) {
-					resp, err := http.Get(args.Path)
-					if err != nil {
-						log.Fatal(err)
-						return api.OnLoadResult{}, err
-					}
-
-					defer resp.Body.Close()
-
-					bytes, err := ioutil.ReadAll(resp.Body)
-					if err != nil {
-						log.Fatal(err)
-						return api.OnLoadResult{}, nil
-					}
-
-					contents := string(bytes)
-
-					base, err := url.Parse(resp.Request.URL.Path)
-
-					if err != nil {
-						return api.OnLoadResult{}, nil
-					}
-
-					return api.OnLoadResult{
-						Contents: &contents,
-						Loader:   api.LoaderJSX,
-						// remove filename from url
-						ResolveDir: filepath.Dir(base.String()),
-					}, nil
-				},
-			)
-		},
-	}
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// fmt.Println(insertResult.InsertedID)
 }
