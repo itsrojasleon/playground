@@ -4,10 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -34,12 +32,8 @@ var conf = &oauth2.Config{
 }
 
 func InitializeUserRoutes(router *gin.Engine) {
-	fmt.Println(gin.Mode())
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{"hey": os.Getenv("CLIENT_SECRET")})
-	})
-	router.GET("/callback", callback)
 	users := router.Group("/api/users")
+	router.GET("/callback", callback)
 	{
 		users.GET("/login", login)
 	}
@@ -63,8 +57,10 @@ func callback(c *gin.Context) {
 
 	exchangeToken, err := conf.Exchange(ctx, code)
 
+	// this is a huge error
+	// something like an html preview
 	if err != nil {
-		c.Error(errors.New("mmmm"))
+		c.Error(errors.New("something went wrong when exchanging code"))
 		return
 	}
 
@@ -109,5 +105,5 @@ func callback(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, gin.H{"user": user})
+	c.Redirect(http.StatusPermanentRedirect, "/")
 }
