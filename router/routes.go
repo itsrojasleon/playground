@@ -17,6 +17,7 @@ func InitializeRouter() {
 	router.Use(middlewares.CurrentUser())
 
 	InitializeUserRoutes(router)
+	InitializeBundlerRoutes(router)
 
 	router.Run(":3000")
 }
