@@ -1,0 +1,21 @@
+@import "../utils/colors"
+
+.wrapper
+  background-color: aqua
+  position: relative
+  &:hover .format-button
+    opacity: 1
+  .format-button
+    position: absolute
+    opacity: 0
+    right: 0
+    z-index: 1
+    border: none
+    background-color: $green
+    color: $white
+    border-radius: 3px
+    padding: 4px 8px 4px 8px
+    transition: all 0.3s ease-out
+    &:hover
+      background-color: $green-secondary
+      cursor: pointer

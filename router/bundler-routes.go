@@ -2,7 +2,6 @@ package router
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -11,28 +10,22 @@ import (
 
 func InitializeBundlerRoutes(router *gin.Engine) {
 	router.POST("/api/bundler", createBundle)
-	// router.GET("/api/bundler", func(c *gin.Context) {
-	// 	c.JSON(http.StatusOK, gin.H{"status": "OK"})
-	// })
 }
 
-type postRequest struct {
+type request struct {
 	RawCode string `json:"rawCode"`
 }
 
 func createBundle(c *gin.Context) {
-	var pr postRequest
+	var r request
+	c.BindJSON(&r)
 
-	c.BindJSON(&pr)
-
-	fmt.Println("code", pr.RawCode)
-
-	if pr.RawCode == "" {
+	if r.RawCode == "" {
 		c.Error(errors.New("raw-code is empty"))
 		return
 	}
 
-	bundledCode := bundler.Bundler(pr.RawCode)
+	bundledCode := bundler.Bundler(r.RawCode)
 
 	c.JSON(http.StatusOK, gin.H{"code": bundledCode})
 }

@@ -10,6 +10,7 @@ module.exports = {
   plugins: [
     '@snowpack/plugin-react-refresh',
     '@snowpack/plugin-dotenv',
+    '@snowpack/plugin-sass',
     [
       '@snowpack/plugin-typescript',
       {
@@ -23,6 +24,14 @@ module.exports = {
     { match: 'all', src: '/api/.*', dest: (req, res) => proxy.web(req, res) },
     { match: 'routes', src: '.*', dest: '/index.html' },
   ],
+  alias: {
+    components: './src/components',
+    hooks: './src/hooks',
+    utils: './src/utils',
+    pages: './src/pages',
+    api: './src/api',
+    state: './src/state',
+  },
   optimize: {
     /* Example: Bundle your final build: */
     // "bundle": true,

@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { html } from '../utils/preview';
 
-const html = `
-  <script>
+interface CodePreviewProps {
+  code: string;
+}
 
-  </script>
-`;
+const CodePreview: React.FC<CodePreviewProps> = ({ code }) => {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
-const CodePreview = () => {
-  return <iframe sandbox="allow-scripts" srcDoc={html} />;
+  useEffect(() => {
+    if (!iframeRef.current) {
+      return;
+    }
+
+    iframeRef.current.srcdoc = html;
+
+    iframeRef.current.contentWindow?.postMessage(code, '*');
+  }, [code]);
+
+  return (
+    <iframe
+      ref={iframeRef}
+      sandbox="allow-scripts"
+      srcDoc={html}
+      title="preview"
+    />
+  );
 };
 
 export default CodePreview;

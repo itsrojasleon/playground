@@ -10,9 +10,11 @@ func Bundler(rawCode string) string {
 		Bundle:      true,
 		Write:       false,
 		Plugins:     []api.Plugin{unpkgPathPlugin, fetchPlugin(rawCode)},
-		LogLevel:    api.LogLevelDebug,
-		Define:      map[string]string{"process.env.NODE_ENV": `"production"`},
 	})
+
+	// result := api.Transform(rawCode, api.TransformOptions{
+	// 	Loader: api.LoaderJSX,
+	// })
 
 	return string(result.OutputFiles[0].Contents)
 }

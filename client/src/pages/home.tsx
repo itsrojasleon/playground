@@ -5,20 +5,26 @@ import CodeEditor from '../components/code-editor';
 
 const Home = () => {
   const [text, setText] = useState('');
+  const [code, setCode] = useState('');
 
-  useEffect(() => {
-    const makeRequest = async () => {
-      try {
-        const { data } = await axios.post('/api/bundler', { rawCode: text });
+  // useEffect(() => {
 
-        console.log(data);
-      } catch (err) {
-        console.error(err.response.data);
-      }
-    };
+  //   if (text) {
+  //     makeRequest();
+  //   }
+  // }, [text]);
 
-    makeRequest();
-  }, [text]);
+  const handleClick = async () => {
+    try {
+      const { data } = await axios.post<{ code: string }>('/api/bundler', {
+        rawCode: text,
+      });
+
+      setCode(data.code);
+    } catch (err) {
+      console.error(err.response.data);
+    }
+  };
 
   return (
     <div>
@@ -26,8 +32,8 @@ const Home = () => {
         initialValue="const a = 1;"
         onChange={(value) => setText(value)}
       />
-      Text:{text}
-      <CodePreview />
+      <button onClick={handleClick}>Bundle!</button>
+      <CodePreview code={code} />
     </div>
   );
 };
