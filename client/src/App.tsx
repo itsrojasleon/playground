@@ -1,3 +1,4 @@
+import Header from 'components/header';
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
@@ -7,6 +8,7 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
+        <Header />
         <Suspense fallback={<h1>Loading...</h1>}>
           <Switch>
             <Route path="/" component={Home} />

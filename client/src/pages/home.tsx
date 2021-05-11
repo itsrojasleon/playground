@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import CodePreview from '../components/code-preview';
-import CodeEditor from '../components/code-editor';
+import CodePreview from 'components/code-preview';
+import CodeEditor from 'components/code-editor';
+import Resizable from 'components/resizable';
+// import Resizable from 'components/resizable';
 
 const Home = () => {
   const [text, setText] = useState('');
@@ -27,12 +29,13 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <CodeEditor
-        initialValue="const a = 1;"
-        onChange={(value) => setText(value)}
-      />
-      <button onClick={handleClick}>Bundle!</button>
+    <div style={{ display: 'flex' }}>
+      <Resizable direction="horizontal">
+        <CodeEditor
+          initialValue="const a = 'hello there!'"
+          onChange={() => {}}
+        />
+      </Resizable>
       <CodePreview code={code} />
     </div>
   );
