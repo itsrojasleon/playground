@@ -1,54 +1,37 @@
 package main
 
 import (
-	"github.com/rojasleon/playground/router"
+	"fmt"
+	"net/http"
+
+	"github.com/gorilla/mux"
+	"github.com/rojasleon/playground/db"
+	"github.com/rojasleon/playground/middlewares"
+	"github.com/rojasleon/playground/routes"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
-// type Podcast struct {
-// 	ID     primitive.ObjectID `bson:"_id,omitempty"`
-// 	Title  string             `bson:"title,omitempty"`
-// 	Author string             `bson:"author,omitempty"`
-// 	Tags   []string           `bson:"tags,omitempty"`
-// }
+// ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+// defer cancel()
+// client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 
-// type Episode struct {
-// 	ID          primitive.ObjectID `bson:"_id,omitempty"`
-// 	Podcast     primitive.ObjectID `bson:"podcast,omitempty"`
-// 	Title       string             `bson:"title,omitempty"`
-// 	Description string             `bson:"description,omitempty"`
-// 	Duration    int32              `bson:"duration,omitempty"`
-// }
+type App struct {
+	Router *mux.Router
+	DB     *mongo.Database
+}
 
 func main() {
-	router.InitializeRouter()
-	// client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	// database connection
+	db.Connect()
+	defer db.Disconnect()
+	fmt.Println("Connected to mongo db")
 
-	// ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	// err = client.Connect(ctx)
+	// router stuff
+	r := mux.NewRouter()
 
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	r.HandleFunc("/api/bundler", routes.Create).Methods("POST")
+	r.Use(middlewares.JSONMiddleware)
 
-	// defer client.Disconnect(ctx)
-
-	// quickstartDatabase := client.Database("quickstart")
-	// podcastsCollection := quickstartDatabase.Collection("podcasts")
-	// // episodesCollection := quickstartDatabase.Collection("episodes")
-
-	// podcast := Podcast{
-	// 	Title:  "The Polyglot Developer",
-	// 	Author: "Nic Raboy",
-	// 	Tags:   []string{"development", "programming", "coding"},
-	// }
-
-	// insertResult, err := podcastsCollection.InsertOne(ctx, podcast)
-
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// fmt.Println(insertResult.InsertedID)
+	fmt.Println("Listening on port 3000")
+	http.ListenAndServe(":3000", r)
 }

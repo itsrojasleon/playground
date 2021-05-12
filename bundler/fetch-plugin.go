@@ -29,7 +29,6 @@ var fetchPlugin = func(rawCode string) api.Plugin {
 				},
 			)
 
-			// second on load
 			build.OnLoad(api.OnLoadOptions{Filter: ".*", Namespace: "a"},
 				func(args api.OnLoadArgs) (api.OnLoadResult, error) {
 					resp, err := http.Get(args.Path)
