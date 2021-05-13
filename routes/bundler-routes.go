@@ -6,9 +6,6 @@ import (
 	"net/http"
 
 	"github.com/rojasleon/playground/bundler"
-	"github.com/rojasleon/playground/db"
-	"github.com/rojasleon/playground/models"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type IncomingRequest struct {
@@ -29,6 +26,7 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Println(req.RawCode)
 	code, err := bundler.Bundler(req.RawCode)
 
 	if err != nil {
@@ -38,17 +36,17 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// store it in database
-	doc := models.Bundle{Code: code, ID: primitive.NewObjectID()}
+	// doc := models.Bundle{Code: code, ID: primitive.NewObjectID()}
 
-	newBundle, err := db.Client.Database("bundles").Collection("bundle").InsertOne(db.Ctx, doc)
+	// newBundle, err := db.Client.Database("bundles").Collection("bundle").InsertOne(db.Ctx, doc)
 
-	if err != nil {
-		fmt.Println("some problems", err)
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
+	// if err != nil {
+	// 	fmt.Println("some problems", err)
+	// 	http.Error(w, err.Error(), http.StatusBadRequest)
+	// 	return
+	// }
 
-	fmt.Println(newBundle)
+	// fmt.Println(newBundle)
 
 	var m = OutcomingRequest{Message: "bundle created", Result: code}
 	json.NewEncoder(w).Encode(&m)

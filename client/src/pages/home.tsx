@@ -11,15 +11,28 @@ const Home = () => {
   const { createBundle } = useActions();
   const { loading, err, code } = useTypedSelector((state) => state.bundles);
 
-  console.log(loading, err, code);
+  // const handleClick = async () => {
+  //   try {
+  //     createBundle(text);
+  //   } catch (err) {
+  //     console.log(err.response.data);
+  //   }
+  // };
 
-  const handleClick = async () => {
-    try {
-      createBundle(text);
-    } catch (err) {
-      console.log(err.response.data);
+  useEffect(() => {
+    if (!text) {
+      console.log('Empty code');
+      return;
     }
-  };
+
+    const timer = window.setTimeout(() => {
+      createBundle(text);
+    }, 1000);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [text]);
 
   return (
     <div style={{ display: 'flex', height: '100%' }}>
@@ -37,8 +50,8 @@ const Home = () => {
           onChange={(newText) => setText(newText)}
         />
       </div>
-      {/* <CodePreview code={code} /> */}
-      <button onClick={handleClick}>Bundle!</button>
+      <CodePreview code={code} />
+      {/* <button onClick={handleClick}>Bundle!</button> */}
     </div>
   );
 };
