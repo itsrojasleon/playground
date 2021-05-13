@@ -2,41 +2,43 @@ import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import CodePreview from 'components/code-preview';
 import CodeEditor from 'components/code-editor';
-import Resizable from 'components/resizable';
+import { useActions } from 'hooks/use-actions';
+import { useTypedSelector } from 'hooks/use-typed-selector';
 // import Resizable from 'components/resizable';
 
 const Home = () => {
   const [text, setText] = useState('');
-  const [code, setCode] = useState('');
+  const { createBundle } = useActions();
+  const { loading, err, code } = useTypedSelector((state) => state.bundles);
 
-  // useEffect(() => {
-
-  //   if (text) {
-  //     makeRequest();
-  //   }
-  // }, [text]);
+  console.log(loading, err, code);
 
   const handleClick = async () => {
     try {
-      const { data } = await axios.post<{ code: string }>('/api/bundler', {
-        rawCode: text,
-      });
-
-      setCode(data.code);
+      createBundle(text);
     } catch (err) {
-      console.error(err.response.data);
+      console.log(err.response.data);
     }
   };
 
   return (
-    <div style={{ display: 'flex' }}>
-      <Resizable direction="horizontal">
+    <div style={{ display: 'flex', height: '100%' }}>
+      {/* Extremely hard logic to make a resizer */}
+      <div
+        style={{
+          resize: 'horizontal',
+          overflow: 'auto',
+          width: '50%',
+          height: '100%',
+        }}
+      >
         <CodeEditor
-          initialValue="const a = 'hello there!'"
-          onChange={() => {}}
+          initialValue="// Welcome to this amazing playground!"
+          onChange={(newText) => setText(newText)}
         />
-      </Resizable>
-      <CodePreview code={code} />
+      </div>
+      {/* <CodePreview code={code} /> */}
+      <button onClick={handleClick}>Bundle!</button>
     </div>
   );
 };

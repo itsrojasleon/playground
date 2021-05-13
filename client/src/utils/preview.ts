@@ -7,6 +7,7 @@ export const html = `
   </head>
   <body>
     <div id="root"></div>
+    <button>hello</button>
     <script>
       const handleError = (err) => {
         const root = document.querySelector('#root');

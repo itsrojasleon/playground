@@ -32,6 +32,7 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	code, err := bundler.Bundler(req.RawCode)
 
 	if err != nil {
+		fmt.Println("frsds problems", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -42,7 +43,9 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	newBundle, err := db.Client.Database("bundles").Collection("bundle").InsertOne(db.Ctx, doc)
 
 	if err != nil {
+		fmt.Println("some problems", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	fmt.Println(newBundle)

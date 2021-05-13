@@ -7,17 +7,19 @@ const Bundle = lazy(() => import('./pages/bundle'));
 
 const App = () => {
   return (
-    <>
+    <div style={{ height: '100vh' }}>
       <BrowserRouter>
         <Header />
-        <Suspense fallback={<h1>Loading...</h1>}>
-          <Switch>
-            <Route path="/bundles/:id" component={Bundle} />
-            <Route path="/" component={Home} />
-          </Switch>
-        </Suspense>
+        <div style={{ height: '92vh' }}>
+          <Suspense fallback={<h1>Loading...</h1>}>
+            <Switch>
+              <Route path="/bundles/:id" component={Bundle} />
+              <Route path="/" component={Home} />
+            </Switch>
+          </Suspense>
+        </div>
       </BrowserRouter>
-    </>
+    </div>
   );
 };
 
