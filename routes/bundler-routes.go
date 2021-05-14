@@ -2,7 +2,6 @@ package routes
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/rojasleon/playground/bundler"
@@ -26,11 +25,9 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println(req.RawCode)
 	code, err := bundler.Bundler(req.RawCode)
 
 	if err != nil {
-		fmt.Println("frsds problems", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}

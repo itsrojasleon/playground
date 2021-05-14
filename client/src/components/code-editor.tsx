@@ -49,16 +49,16 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
         Format
       </button>
       <MonacoEditor
-        value={initialValue}
         editorDidMount={onEditorDidMount}
-        language="javascript"
-        theme="dark"
+        value={initialValue}
         height="100%"
+        language="javascript"
+        theme="vs-dark"
         options={{
           wordWrap: 'on',
           minimap: { enabled: false },
           showUnused: false,
-          folding: true,
+          folding: false,
           lineNumbersMinChars: 3,
           fontSize: 16,
           scrollBeyondLastLine: false,
