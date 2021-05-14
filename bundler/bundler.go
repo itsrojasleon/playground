@@ -13,6 +13,7 @@ func Bundler(rawCode string) (string, error) {
 		Write:       false,
 		Plugins:     []api.Plugin{unpkgPathPlugin, fetchPlugin(rawCode)},
 		LogLevel:    api.LogLevelDebug,
+		// JSXFactory: ,
 	})
 
 	if len(result.Errors) >= 1 {

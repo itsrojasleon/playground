@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import styles from './preview.module.sass';
+// don't use css modules on this file because it's using a special class name to refer the
+// react-resizable element
+import './preview.sass';
 
 interface PreviewProps {
   code: string;
@@ -59,7 +61,7 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
   }, [code]);
 
   return (
-    <div className={styles.wrapper}>
+    <div className="preview-wrapper">
       <iframe
         ref={iframeRef}
         sandbox="allow-scripts"

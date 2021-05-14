@@ -6,13 +6,31 @@ import { useActions } from 'hooks/use-actions';
 import { useTypedSelector } from 'hooks/use-typed-selector';
 
 const CodeCell = () => {
-  // const [code, setCode] = useState('');
-  // const [input, setInput] = useState('');
-  // const {} = useState();
+  const { createBundle } = useActions();
+  const { code, err, loading } = useTypedSelector((state) => state.bundles);
+  const [input, setInput] = useState('');
 
   useEffect(() => {
-    // window.setTimeout(() => {}, 1000);
-  }, []);
+    const timer = window.setTimeout(() => {
+      createBundle(input);
+    }, 750);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [input]);
+
+  const moreCode = `
+    const render = (value) => {
+      const rootElement = document.getElementById('root');
+      const paragraph = document.createElement('p');
+      const text = document.createTextNode(value)
+      paragraph.appendChild(text)
+
+      rootElement.appendChild(paragraph)
+    }
+    ${code}
+  `;
 
   return (
     <Resizable direction="vertical">
@@ -25,15 +43,11 @@ const CodeCell = () => {
       >
         <Resizable direction="horizontal">
           <CodeEditor
-            initialValue="// Welcome to this amazing playground!"
-            onChange={() => {}}
+            initialValue="const hello = 'hello there!'; console.log(hello)"
+            onChange={(text) => setInput(text)}
           />
-          {/* <div style={{ backgroundColor: 'red', width: '100%' }}>
-            Hello there
-          </div> */}
         </Resizable>
-        {/* <Preview code="" /> */}
-        <div style={{ backgroundColor: 'yellow' }}>Preview window</div>
+        <Preview code={moreCode} />
       </div>
     </Resizable>
   );
