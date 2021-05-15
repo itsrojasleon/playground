@@ -25,7 +25,7 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	code, err := bundler.Bundler(req.RawCode)
+	code, err := bundler.Bundler(req.RawCode, "index.js")
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)

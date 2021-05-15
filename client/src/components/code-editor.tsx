@@ -1,15 +1,23 @@
 import React, { useRef, useEffect } from 'react';
 import MonacoEditor, { EditorDidMount } from '@monaco-editor/react';
 import prettier from 'prettier';
-import parser from 'prettier/parser-babel';
+import babelParser from 'prettier/parser-babel';
+import markdownParser from 'prettier/parser-markdown';
 import styles from './code-editor.module.sass';
+
+type SupportedLanguages = 'javascript' | 'typescript' | 'markdown';
 
 interface CodeEditorProps {
   initialValue: string;
   onChange: (value: string) => void;
+  language?: SupportedLanguages;
 }
 
-const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
+const CodeEditor: React.FC<CodeEditorProps> = ({
+  initialValue,
+  onChange,
+  language = 'javascript',
+}) => {
   const editorRef = useRef<any>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -27,8 +35,8 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
     const unformatted = editorRef.current.getModel().getValue();
 
     const formatted = prettier.format(unformatted, {
-      parser: 'babel',
-      plugins: [parser],
+      parser: language === 'markdown' ? 'markdown' : 'babel',
+      plugins: [language === 'markdown' ? markdownParser : babelParser],
       useTabs: false,
       semi: true,
       singleQuote: true,
@@ -52,7 +60,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
         editorDidMount={onEditorDidMount}
         value={initialValue}
         height="100%"
-        language="typescript"
+        language={language}
         theme="vs-dark"
         options={{
           wordWrap: 'on',

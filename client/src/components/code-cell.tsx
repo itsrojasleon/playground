@@ -25,9 +25,7 @@ const CodeCell = () => {
         // jsx elements
         if (value.$$typeof && value.props) {
           jsxElements.push(value)
-
           const App = () => jsxElements.map(el => el)
-          
           _ReactDOM.render(<App />, rootElement);
         // complex values as objects and arrays
         } else {
@@ -70,7 +68,8 @@ const CodeCell = () => {
       >
         <Resizable direction="horizontal">
           <CodeEditor
-            initialValue="const hello = 'hello there!'; console.log(hello)"
+            language="markdown"
+            initialValue="render(<h1>Hello!</h1>)"
             onChange={(text) => setInput(text)}
           />
         </Resizable>

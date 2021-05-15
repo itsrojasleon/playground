@@ -6,9 +6,10 @@ import (
 	"github.com/evanw/esbuild/pkg/api"
 )
 
-func Bundler(rawCode string) (string, error) {
+func Bundler(rawCode string, loaderFile string) (string, error) {
+	// some good code over here
 	result := api.Build(api.BuildOptions{
-		EntryPoints: []string{"index.js"},
+		EntryPoints: []string{loaderFile},
 		Bundle:      true,
 		Write:       false,
 		Plugins:     []api.Plugin{unpkgPathPlugin, fetchPlugin(rawCode)},
