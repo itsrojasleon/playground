@@ -5,9 +5,10 @@ import './preview.sass';
 
 interface PreviewProps {
   code: string;
+  err: string;
 }
 
-const Preview: React.FC<PreviewProps> = ({ code }) => {
+const Preview: React.FC<PreviewProps> = ({ code, err }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const html = `
@@ -68,6 +69,7 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
         srcDoc={html}
         title="preview"
       />
+      {err && <div className="preview-err">{err}</div>}
     </div>
   );
 };

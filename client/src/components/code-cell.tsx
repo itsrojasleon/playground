@@ -10,27 +10,54 @@ const CodeCell = () => {
   const { code, err, loading } = useTypedSelector((state) => state.bundles);
   const [input, setInput] = useState('');
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      createBundle(input);
-    }, 750);
+  const cumulativeCode = `
+    // rename import statements to avoid naming collisions
+    // check out the bundler file to see the correct import statement
+    import _React from 'react';
+    import _ReactDOM from 'react-dom';
 
-    return () => {
-      window.clearTimeout(timer);
-    };
-  }, [input]);
+    const jsxElements = []
 
-  const moreCode = `
+    const rootElement = document.getElementById('root')
+
     const render = (value) => {
-      const rootElement = document.getElementById('root');
+      if (typeof value === 'object') {
+        // jsx elements
+        if (value.$$typeof && value.props) {
+          jsxElements.push(value)
+
+          const App = () => jsxElements.map(el => el)
+          
+          _ReactDOM.render(<App />, rootElement);
+        // complex values as objects and arrays
+        } else {
+          appendParagraph(JSON.stringify(value));
+        }
+      // regular values
+      } else {
+        appendParagraph(value);
+      }
+    }
+
+    const appendParagraph = (value) => {
       const paragraph = document.createElement('p');
       const text = document.createTextNode(value)
       paragraph.appendChild(text)
 
       rootElement.appendChild(paragraph)
     }
-    ${code}
+    ${input}
   `;
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      createBundle(cumulativeCode);
+    }, 750);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [input]);
 
   return (
     <Resizable direction="vertical">
@@ -47,7 +74,7 @@ const CodeCell = () => {
             onChange={(text) => setInput(text)}
           />
         </Resizable>
-        <Preview code={moreCode} />
+        <Preview code={code} err={err} />
       </div>
     </Resizable>
   );

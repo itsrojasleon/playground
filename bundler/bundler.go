@@ -12,8 +12,9 @@ func Bundler(rawCode string) (string, error) {
 		Bundle:      true,
 		Write:       false,
 		Plugins:     []api.Plugin{unpkgPathPlugin, fetchPlugin(rawCode)},
-		LogLevel:    api.LogLevelDebug,
-		// JSXFactory: ,
+		Define:      map[string]string{"process.env.NODE_ENV": "'production'"},
+		JSXFactory:  "_React.createElement",
+		JSXFragment: "_React.Fragment",
 	})
 
 	if len(result.Errors) >= 1 {
