@@ -28,7 +28,7 @@ var fetchPlugin = func(rawCode string) api.Plugin {
 				func(args api.OnLoadArgs) (api.OnLoadResult, error) {
 					return api.OnLoadResult{
 						Contents: &rawCode,
-						Loader:   api.LoaderJSX,
+						Loader:   api.LoaderTSX,
 					}, nil
 				})
 

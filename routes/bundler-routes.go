@@ -27,7 +27,7 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	supportedLanguages := []string{"javascript", "typescript", "markdown"}
+	supportedLanguages := []string{"javascript", "typescript"}
 
 	isSupported := false
 

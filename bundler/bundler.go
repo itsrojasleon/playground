@@ -12,11 +12,7 @@ func Bundler(rawCode string, loaderFile string) (string, error) {
 		EntryPoints: []string{loaderFile},
 		Bundle:      true,
 		Write:       false,
-		Plugins: []api.Plugin{
-			unpkgPathPlugin,
-			fetchPlugin(rawCode),
-			markdownPlugin(rawCode),
-		},
+		Plugins:     []api.Plugin{unpkgPathPlugin, fetchPlugin(rawCode)},
 		Define:      map[string]string{"process.env.NODE_ENV": "'production'"},
 		JSXFactory:  "_React.createElement",
 		JSXFragment: "_React.Fragment",

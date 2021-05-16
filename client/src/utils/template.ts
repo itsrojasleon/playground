@@ -38,7 +38,7 @@ export const cumulativeCode = (code: string): string => {
     import _ReactDOM from 'react-dom';
 
     const jsxElements = []
-    const rootElement = document.getElementById('root')
+    const rootElement = document.getElementById('root');
     ${renderFunction}
     ${appendFunction}
     ${code}
@@ -47,7 +47,8 @@ export const cumulativeCode = (code: string): string => {
 
 export const markdownCumulativeCode = (code: string): string => {
   return `
+    import marked from 'marked';
+
     ${code}
-    asasoakosk
   `;
 };

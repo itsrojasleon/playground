@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Resizable from 'components/resizable';
 import CodeEditor from 'components/code-editor';
 import Preview from 'components/preview';
+import MarkdownPreview from 'components/markdown-preview';
 import { useActions } from 'hooks/use-actions';
 import { useTypedSelector } from 'hooks/use-typed-selector';
 import { cumulativeCode, markdownCumulativeCode } from 'utils/template';
@@ -23,11 +24,9 @@ const CodeCell: React.FC<CodeCellProps> = ({ language }) => {
       if (language === 'javascript' || language === 'typescript') {
         executableCode = cumulativeCode(input);
       } else {
-        // we don't want to send the cumulative code to the server
-        // it's not going to parse it correctly
-        executableCode = markdownCumulativeCode(code);
+        executableCode = markdownCumulativeCode(input);
       }
-      createBundle(executableCode, language);
+      // createBundle(executableCode, language);
     }, 750);
 
     return () => {
@@ -51,7 +50,11 @@ const CodeCell: React.FC<CodeCellProps> = ({ language }) => {
             onChange={(text) => setInput(text)}
           />
         </Resizable>
-        <Preview code={code} err={err} />
+        {language === 'markdown' ? (
+          <MarkdownPreview code={input} />
+        ) : (
+          <Preview code={code} err={err} />
+        )}
       </div>
     </Resizable>
   );
