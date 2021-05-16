@@ -11,6 +11,7 @@ require (
 	github.com/gin-gonic/gin v1.7.1 // indirect
 	github.com/go-playground/validator/v10 v10.5.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/gomarkdown/markdown v0.0.0-20210514010506-3b9f47219fe7 // indirect
 	github.com/google/go-cmp v0.5.5 // indirect
 	github.com/google/go-github/v35 v35.1.0 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect

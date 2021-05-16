@@ -2,14 +2,15 @@ import type { Dispatch } from 'redux';
 import axios from 'axios';
 import { ActionType } from '../action-types';
 import type { Action } from '../actions';
+import type { Languages } from 'utils/types';
 
-export const createBundle = (rawcode: string) => {
+export const createBundle = (rawcode: string, language: Languages) => {
   return async (dispatch: Dispatch<Action>) => {
     dispatch({ type: ActionType.CREATE_BUNDLE });
     try {
       const { data } = await axios.post<{ message: string; result: string }>(
         '/api/bundler',
-        { rawcode },
+        { rawcode, language },
       );
 
       dispatch({

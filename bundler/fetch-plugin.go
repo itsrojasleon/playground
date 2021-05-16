@@ -14,22 +14,25 @@ var fetchPlugin = func(rawCode string) api.Plugin {
 	return api.Plugin{
 		Name: "fetch-plugin",
 		Setup: func(build api.PluginBuild) {
-			build.OnLoad(api.OnLoadOptions{Filter: `(^index\.js$)`, Namespace: "a"},
+			// javascript code
+			build.OnLoad(api.OnLoadOptions{Filter: `^javascript$`, Namespace: "unpkg-url"},
 				func(args api.OnLoadArgs) (api.OnLoadResult, error) {
 					return api.OnLoadResult{
 						Contents: &rawCode,
-						Loader:   api.LoaderTSX,
+						Loader:   api.LoaderJSX,
 					}, nil
 				})
 
-			build.OnLoad(api.OnLoadOptions{Filter: ".*", Namespace: "a"},
+			// typescript code
+			build.OnLoad(api.OnLoadOptions{Filter: `^typescript$`, Namespace: "unpkg-url"},
 				func(args api.OnLoadArgs) (api.OnLoadResult, error) {
+					return api.OnLoadResult{
+						Contents: &rawCode,
+						Loader:   api.LoaderJSX,
+					}, nil
+				})
 
-					return api.OnLoadResult{}, nil
-				},
-			)
-
-			build.OnLoad(api.OnLoadOptions{Filter: ".*", Namespace: "a"},
+			build.OnLoad(api.OnLoadOptions{Filter: ".*", Namespace: "unpkg-url"},
 				func(args api.OnLoadArgs) (api.OnLoadResult, error) {
 					resp, err := http.Get(args.Path)
 					if err != nil {
@@ -55,7 +58,7 @@ var fetchPlugin = func(rawCode string) api.Plugin {
 
 					return api.OnLoadResult{
 						Contents: &contents,
-						Loader:   api.LoaderTSX,
+						Loader:   api.LoaderJSX,
 						// remove filename from url
 						ResolveDir: filepath.Dir(base.String()),
 					}, nil

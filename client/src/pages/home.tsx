@@ -4,7 +4,7 @@ import CodeCell from 'components/code-cell';
 const Home = () => {
   return (
     <>
-      <CodeCell />
+      <CodeCell language="markdown" />
     </>
   );
 };

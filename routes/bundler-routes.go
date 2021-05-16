@@ -2,13 +2,15 @@ package routes
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 
 	"github.com/rojasleon/playground/bundler"
 )
 
 type IncomingRequest struct {
-	RawCode string `json:"rawcode"`
+	RawCode  string `json:"rawcode"`
+	Language string `json:"language"`
 }
 
 type OutcomingRequest struct {
@@ -25,7 +27,23 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	code, err := bundler.Bundler(req.RawCode, "index.js")
+	supportedLanguages := []string{"javascript", "typescript", "markdown"}
+
+	isSupported := false
+
+	for _, language := range supportedLanguages {
+		if req.Language == language {
+			isSupported = true
+			break
+		}
+	}
+
+	if !isSupported {
+		http.Error(w, errors.New("language is not supported").Error(), http.StatusBadRequest)
+		return
+	}
+
+	code, err := bundler.Bundler(req.RawCode, req.Language)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
