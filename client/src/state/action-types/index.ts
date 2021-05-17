@@ -1,5 +1,6 @@
 export enum ActionType {
-  CREATE_BUNDLE = 'create_bundle',
-  CREATE_BUNDLE_COMPLETE = 'create_bundle_complete',
-  CREATE_BUNDLE_ERROR = 'create_bundle_error',
+  BUNDLE_START = 'bundle_start',
+  BUNDLE_COMPLETE = 'bundle_complete',
+  BUNDLE_ERROR = 'bundle_error',
+  INSERT_CELL = 'insert_cell',
 }

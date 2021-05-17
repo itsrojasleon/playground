@@ -1,39 +1,12 @@
 import { combineReducers } from 'redux';
-import { ActionType } from '../action-types';
-import type { Action } from '../actions';
+import bundlesReducer from './bundles-reducer';
+import cellsReducer from './cells-reducer';
 
-interface BundlesState {
-  loading: boolean;
-  code: string;
-  err: string;
-}
-
-const initialState: BundlesState = {
-  loading: false,
-  code: '',
-  err: '',
-};
-
-const bundlesReducer = (
-  state: BundlesState = initialState,
-  action: Action,
-): BundlesState => {
-  switch (action.type) {
-    case ActionType.CREATE_BUNDLE:
-      return { loading: true, err: '', code: '' };
-    case ActionType.CREATE_BUNDLE_COMPLETE:
-      return { loading: false, err: '', code: action.payload };
-    case ActionType.CREATE_BUNDLE_ERROR:
-      return { loading: false, err: action.payload, code: '' };
-    default:
-      return state;
-  }
-};
-
-const reducer = combineReducers({
+const reducers = combineReducers({
   bundles: bundlesReducer,
+  cells: cellsReducer,
 });
 
-export default reducer;
+export default reducers;
 
-export type RootState = ReturnType<typeof reducer>;
+export type RootState = ReturnType<typeof reducers>;

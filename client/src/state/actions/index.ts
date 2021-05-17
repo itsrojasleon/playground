@@ -1,20 +1,27 @@
+import type { Cell } from '../types';
 import type { ActionType } from '../action-types';
 
-interface CreateBundleAction {
-  type: ActionType.CREATE_BUNDLE;
+interface BundleStartAction {
+  type: ActionType.BUNDLE_START;
 }
 
-interface CreateBundleCompleteAction {
-  type: ActionType.CREATE_BUNDLE_COMPLETE;
+interface BundleCompleteAction {
+  type: ActionType.BUNDLE_COMPLETE;
   payload: string;
 }
 
-interface CreateBundleErrorAction {
-  type: ActionType.CREATE_BUNDLE_ERROR;
+interface BundleErrorAction {
+  type: ActionType.BUNDLE_ERROR;
   payload: string;
+}
+
+export interface InsertCell {
+  type: ActionType.INSERT_CELL;
+  payload: Cell;
 }
 
 export type Action =
-  | CreateBundleAction
-  | CreateBundleCompleteAction
-  | CreateBundleErrorAction;
+  | BundleStartAction
+  | BundleCompleteAction
+  | BundleErrorAction
+  | InsertCell;

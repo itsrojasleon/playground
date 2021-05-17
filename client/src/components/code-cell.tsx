@@ -6,7 +6,7 @@ import MarkdownPreview from 'components/markdown-preview';
 import { useActions } from 'hooks/use-actions';
 import { useTypedSelector } from 'hooks/use-typed-selector';
 import { cumulativeCode, markdownCumulativeCode } from 'utils/template';
-import type { Languages } from 'utils/types';
+import type { Languages } from 'state/types';
 
 interface CodeCellProps {
   language: Languages;
