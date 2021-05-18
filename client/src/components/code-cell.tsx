@@ -5,7 +5,7 @@ import Preview from 'components/preview';
 import MarkdownPreview from 'components/markdown-preview';
 import { useActions } from 'hooks/use-actions';
 import { useTypedSelector } from 'hooks/use-typed-selector';
-import { cumulativeCode, markdownCumulativeCode } from 'utils/template';
+import { cumulativeCode } from 'utils/template';
 import type { Languages } from 'state/types';
 
 interface CodeCellProps {
@@ -18,21 +18,26 @@ const CodeCell: React.FC<CodeCellProps> = ({ language }) => {
   const [input, setInput] = useState('');
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
-      let executableCode;
-
-      if (language === 'javascript' || language === 'typescript') {
-        executableCode = cumulativeCode(input);
-      } else {
-        executableCode = markdownCumulativeCode(input);
-      }
-      // createBundle(executableCode, language);
-    }, 750);
+    let timer: any;
+    if (language !== 'markdown') {
+      timer = window.setTimeout(() => {
+        const executableCode = cumulativeCode(input);
+        createBundle(executableCode, language);
+      }, 750);
+    }
 
     return () => {
       window.clearTimeout(timer);
     };
   }, [input]);
+
+  const renderPreview = () => {
+    return language === 'markdown' ? (
+      <MarkdownPreview htmlCode={input} />
+    ) : (
+      <Preview code={code} err={err} />
+    );
+  };
 
   return (
     <Resizable direction="vertical">
@@ -46,15 +51,11 @@ const CodeCell: React.FC<CodeCellProps> = ({ language }) => {
         <Resizable direction="horizontal">
           <CodeEditor
             language={language}
-            initialValue="# Hello"
+            initialValue=""
             onChange={(text) => setInput(text)}
           />
         </Resizable>
-        {language === 'markdown' ? (
-          <MarkdownPreview code={input} />
-        ) : (
-          <Preview code={code} err={err} />
-        )}
+        {renderPreview()}
       </div>
     </Resizable>
   );

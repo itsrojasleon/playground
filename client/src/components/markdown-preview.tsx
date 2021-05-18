@@ -3,15 +3,15 @@ import marked from 'marked';
 import styles from './markdown-preview.module.sass';
 
 interface MarkdownPreviewProps {
-  code: string;
+  htmlCode: string;
 }
 
-const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({ code }) => {
+const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({ htmlCode }) => {
   return (
     <div className={styles.wrapper}>
       <div
         className={styles.html}
-        dangerouslySetInnerHTML={{ __html: marked(code) }}
+        dangerouslySetInnerHTML={{ __html: marked(htmlCode) }}
       />
     </div>
   );

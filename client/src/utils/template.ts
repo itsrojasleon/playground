@@ -45,10 +45,37 @@ export const cumulativeCode = (code: string): string => {
   `;
 };
 
-export const markdownCumulativeCode = (code: string): string => {
-  return `
-    import marked from 'marked';
+// iframe html template
+export const iframeHTML = `
+  <html>
+  <head>
+    <style>
+      html {background-color: white;}
+      body {font-family: Arial, Helvetica, sans-serif;}
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      const handleError = (err) => {
+        const root = document.getElementById('root');
+        root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div>'
+        console.error(err);
+      }
 
-    ${code}
-  `;
-};
+      window.addEventListener('error', (event) => {
+        event.preventDefault();
+        handleError(event.error);
+      });
+
+      window.addEventListener('message', (event) => {
+        try {
+          eval(event.data);
+        } catch(err) {
+          handleError(err);
+        } 
+      }, false)
+    </script>
+  </body>
+  </html>
+`;
