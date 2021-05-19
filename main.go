@@ -8,17 +8,16 @@ import (
 	"github.com/rojasleon/playground/db"
 	"github.com/rojasleon/playground/middlewares"
 	"github.com/rojasleon/playground/routes"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 // ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 // defer cancel()
 // client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 
-type App struct {
-	Router *mux.Router
-	DB     *mongo.Database
-}
+// type App struct {
+// 	Router *mux.Router
+// 	DB     *mongo.Database
+// }
 
 func main() {
 	// database connection

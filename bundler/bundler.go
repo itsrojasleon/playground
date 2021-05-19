@@ -2,7 +2,6 @@ package bundler
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/evanw/esbuild/pkg/api"
 )
@@ -13,8 +12,11 @@ func Bundler(rawCode string, loaderFile string) (string, error) {
 		Bundle:      true,
 		Write:       false,
 		Plugins:     []api.Plugin{unpkgPathPlugin, fetchPlugin(rawCode)},
-		Define:      map[string]string{"process.env.NODE_ENV": "'production'"},
-		JSXFactory:  "_React.createElement",
+		// Use the production version of every single library at unpkg.com (if exists)
+		Define: map[string]string{"process.env.NODE_ENV": "'production'"},
+		// Change the invocation of every JSX element into other one (to avoid naming collisions)
+		JSXFactory: "_React.createElement",
+		// Change the invocation of every JSX fragment into other one (to avoid naming collisions)
 		JSXFragment: "_React.Fragment",
 	})
 
@@ -24,7 +26,7 @@ func Bundler(rawCode string, loaderFile string) (string, error) {
 		}
 	}
 
-	fmt.Println("content: ", string(result.OutputFiles[0].Contents))
+	// fmt.Println("content: ", string(result.OutputFiles[0].Contents))
 
 	return string(result.OutputFiles[0].Contents), nil
 }
