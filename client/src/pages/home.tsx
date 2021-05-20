@@ -1,10 +1,11 @@
 import React from 'react';
-import AddCell from 'components/add-cell';
 import CellList from 'components/cell-list';
+import Info from 'components/info';
 
 const Home = () => {
   return (
     <>
+      <Info />
       <CellList />
     </>
   );
