@@ -1,4 +1,0 @@
-(() => {
-  // markdown:markdown
-  var markdown_default = "<pre><code># Hello\n\nconst rootElement = document.getElementById('root');\n\nrootElement.innerHTML = markdown_default;\n</code></pre>\n";
-})();

@@ -8,18 +8,12 @@ interface BundleStartAction {
 
 interface BundleCompleteAction {
   type: ActionType.BUNDLE_COMPLETE;
-  payload: {
-    code: string;
-    id: string;
-  };
+  payload: { code: string; id: string };
 }
 
 interface BundleErrorAction {
   type: ActionType.BUNDLE_ERROR;
-  payload: {
-    id: string;
-    error: string;
-  };
+  payload: { id: string; error: string };
 }
 
 export interface InsertCell {
@@ -29,15 +23,17 @@ export interface InsertCell {
 
 export interface UpdateCell {
   type: ActionType.UPDATE_CELL;
-  payload: {
-    id: string;
-    content: string;
-  };
+  payload: { id: string; content: string };
 }
 
+export interface DeleteCell {
+  type: ActionType.DELETE_CELL;
+  payload: string;
+}
 export type Action =
   | BundleStartAction
   | BundleCompleteAction
   | BundleErrorAction
   | InsertCell
-  | UpdateCell;
+  | UpdateCell
+  | DeleteCell;

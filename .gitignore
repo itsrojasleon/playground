@@ -18,3 +18,5 @@
 dev.go
 test.go
 .env
+
+out.json

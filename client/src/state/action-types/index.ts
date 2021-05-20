@@ -4,4 +4,5 @@ export enum ActionType {
   BUNDLE_ERROR = 'bundle_error',
   INSERT_CELL = 'insert_cell',
   UPDATE_CELL = 'update_cell',
+  DELETE_CELL = 'delete_cell',
 }
