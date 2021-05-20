@@ -1,16 +1,24 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import MonacoEditor, { EditorDidMount } from '@monaco-editor/react';
 import prettier from 'prettier';
-import parser from 'prettier/parser-babel';
+import babelParser from 'prettier/parser-babel';
+import markdownParser from 'prettier/parser-markdown';
+import type { Languages } from 'state/types';
 import styles from './code-editor.module.sass';
 
 interface CodeEditorProps {
-  initialValue: string;
+  initialValue?: string;
   onChange: (value: string) => void;
+  language: Languages;
 }
 
-const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
+const CodeEditor: React.FC<CodeEditorProps> = ({
+  initialValue,
+  onChange,
+  language,
+}) => {
   const editorRef = useRef<any>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   const onEditorDidMount: EditorDidMount = (getValue, monacoEditor) => {
     editorRef.current = monacoEditor;
@@ -26,31 +34,39 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
     const unformatted = editorRef.current.getModel().getValue();
 
     const formatted = prettier.format(unformatted, {
-      parser: 'babel',
-      plugins: [parser],
+      // `babel` will format javascript/typescript code
+      parser: language === 'markdown' ? 'markdown' : 'babel',
+      // `babelParser` will work with javascript/typescript code
+      plugins: [language === 'markdown' ? markdownParser : babelParser],
       useTabs: false,
       semi: true,
       singleQuote: true,
       trailingComma: 'none',
     });
-    // .replace(/\n$/, '');
 
     editorRef.current.setValue(formatted);
   };
 
+  useEffect(() => {
+    if (!sectionRef.current) return;
+  }, []);
+
   return (
     <section className={styles.wrapper}>
+      <button className={styles.format} onClick={onFormatClick}>
+        Format
+      </button>
       <MonacoEditor
-        value={initialValue}
         editorDidMount={onEditorDidMount}
-        height="500px"
-        language="javascript"
-        theme="dark"
+        value={initialValue}
+        height="100%"
+        language={language}
+        theme="vs-dark"
         options={{
           wordWrap: 'on',
           minimap: { enabled: false },
           showUnused: false,
-          folding: true,
+          folding: false,
           lineNumbersMinChars: 3,
           fontSize: 16,
           scrollBeyondLastLine: false,

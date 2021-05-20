@@ -1,7 +1,6 @@
 package bundler
 
 import (
-	"net/url"
 	"path"
 
 	"github.com/evanw/esbuild/pkg/api"
@@ -10,44 +9,48 @@ import (
 var unpkgPathPlugin = api.Plugin{
 	Name: "unpkg-path-plugin",
 	Setup: func(build api.PluginBuild) {
-		build.OnResolve(api.OnResolveOptions{Filter: `(^index\.js$)`},
+		// Describe how to handle entry file when using javascript
+		build.OnResolve(api.OnResolveOptions{Filter: `^javascript$`},
 			func(args api.OnResolveArgs) (api.OnResolveResult, error) {
 				return api.OnResolveResult{
 					Path:      args.Path,
-					Namespace: "a",
+					Namespace: "unpkg-url",
 				}, nil
 			})
 
-		// relative paths
-		build.OnResolve(api.OnResolveOptions{Filter: `^\.+\/`, Namespace: "a"},
+		// Describe how to handle entry file when typescript code
+		build.OnResolve(api.OnResolveOptions{Filter: `^typescript$`},
 			func(args api.OnResolveArgs) (api.OnResolveResult, error) {
-				base, err := url.Parse(args.ResolveDir)
-				if err != nil {
-					return api.OnResolveResult{}, nil
-				}
+				return api.OnResolveResult{
+					Path:      args.Path,
+					Namespace: "unpkg-url",
+				}, nil
+			})
 
-				relative, err := url.Parse(args.Path)
-				if err != nil {
-					return api.OnResolveResult{}, nil
-				}
+		// Describe how to handle relative paths in a unpkg module
+		build.OnResolve(api.OnResolveOptions{Filter: `^\.+\/`, Namespace: "unpkg-url"},
+			func(args api.OnResolveArgs) (api.OnResolveResult, error) {
+				// `args.ResolveDir` is the directory where the main file is inside and
+				// it's coming from the `onLoad` step when handling main files ".*".
+				// `args.Path` is the main file
 
-				url, err := url.Parse("https://unpkg.com" + path.Join(relative.ResolveReference(base).String(), relative.String()))
-
-				if err != nil {
-					return api.OnResolveResult{}, nil
-				}
+				// If we don't join the `directory` + `main file` we will have a string
+				// like this: `/package./file.js` and of course that is not a valid path
+				url := "https://unpkg.com" + path.Join(args.ResolveDir, args.Path)
 
 				return api.OnResolveResult{
-					Namespace: "a",
-					Path:      url.String(),
+					Namespace: "unpkg-url",
+					Path:      url,
 				}, nil
 			})
 
-		build.OnResolve(api.OnResolveOptions{Filter: ".*", Namespace: "a"},
+		// Describe how to handle a main file of a module
+		build.OnResolve(api.OnResolveOptions{Filter: ".*", Namespace: "unpkg-url"},
 			func(args api.OnResolveArgs) (api.OnResolveResult, error) {
+				// args.Path is the main file
 				return api.OnResolveResult{
 					Path:      "https://unpkg.com/" + args.Path,
-					Namespace: "a",
+					Namespace: "unpkg-url",
 				}, nil
 			},
 		)
