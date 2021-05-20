@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
-import type { Cell } from 'state/types';
 import CodeEditor from './code-editor';
 import Resizable from './resizable';
 import MarkdownPreview from './markdown-preview';
 import Preview from './preview';
+import ActionBar from './action-bar';
 import { useActions } from 'hooks/use-actions';
 import { useTypedSelector } from 'hooks/use-typed-selector';
+import type { Cell } from 'state/types';
 import { cumulativeCode } from 'utils/template';
+import styles from './cell-list-item.module.sass';
 
 interface CellListItemProps {
   cell: Cell;
@@ -32,10 +34,9 @@ const CellListItem: React.FC<CellListItemProps> = ({ cell }) => {
     };
   }, [cell.id, cumulativeCode(cell.content), createBundle]);
 
-  // console.log(bundle);
-
   return (
-    <>
+    <div className={styles.item}>
+      <ActionBar language={cell.language} id={cell.id} />
       <Resizable key={cell.id} direction="vertical">
         <div
           style={{
@@ -48,26 +49,25 @@ const CellListItem: React.FC<CellListItemProps> = ({ cell }) => {
             <CodeEditor
               language={cell.language}
               onChange={(value) => updateCell(cell.id, value)}
+              initialValue={
+                cell.language === 'typescript' ? '// @ts-nocheck' : ''
+              }
             />
           </Resizable>
           {cell.language === 'markdown' ? (
             <MarkdownPreview htmlCode={cell.content} />
           ) : (
             <>
-              {cell.id}
-              {cell.content}
-              {JSON.stringify(bundle?.loading ? 'true' : 'false')}
-              {JSON.stringify(typeof bundle?.loading)}
-              {/* {bundle.loading ? (
+              {!bundle || bundle.loading ? (
                 <div>Loading...</div>
               ) : (
                 <Preview code={bundle.code} err={bundle.error} />
-              )} */}
+              )}
             </>
           )}
         </div>
       </Resizable>
-    </>
+    </div>
   );
 };
 

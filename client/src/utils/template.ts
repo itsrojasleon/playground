@@ -50,8 +50,12 @@ export const iframeHTML = `
   <html>
   <head>
     <style>
-      html {background-color: white;}
-      body {font-family: Arial, Helvetica, sans-serif;}
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+        background-color: #141618;
+        color: white;
+      }
+      
     </style>
   </head>
   <body>

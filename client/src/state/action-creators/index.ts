@@ -1,7 +1,7 @@
 import type { Dispatch } from 'redux';
 import axios from 'axios';
 import { ActionType } from '../action-types';
-import type { Action, InsertCell, UpdateCell } from '../actions';
+import type { Action, InsertCell, UpdateCell, DeleteCell } from '../actions';
 import { randomId } from 'utils/helpers';
 import type { Languages } from '../types';
 
@@ -48,5 +48,12 @@ export const updateCell = (id: string, content: string): UpdateCell => {
   return {
     type: ActionType.UPDATE_CELL,
     payload: { id, content },
+  };
+};
+
+export const deleteCell = (id: string): DeleteCell => {
+  return {
+    type: ActionType.DELETE_CELL,
+    payload: id,
   };
 };

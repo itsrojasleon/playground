@@ -20,10 +20,13 @@ const cellsReducer = (
     case ActionType.UPDATE_CELL:
       const { id, content } = action.payload;
       return {
-        // ...state,
         data: state.data.map((cell) => {
           return cell.id === id ? { ...cell, content: content } : cell;
         }),
+      };
+    case ActionType.DELETE_CELL:
+      return {
+        data: state.data.filter((cell) => cell.id !== action.payload),
       };
     default:
       return state;

@@ -5,7 +5,6 @@ import CellList from 'components/cell-list';
 const Home = () => {
   return (
     <>
-      <AddCell />
       <CellList />
     </>
   );
