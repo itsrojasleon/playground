@@ -14,13 +14,13 @@ const AddCell = () => {
   return (
     <div className={styles.buttons}>
       <Button
-        style={{ backgroundColor: 'purple' }}
+        style={{ backgroundColor: 'orange' }}
         onClick={() => handleClick('javascript')}
       >
         Javascript
       </Button>
       <Button
-        style={{ backgroundColor: 'blueviolet' }}
+        style={{ backgroundColor: 'chocolate' }}
         onClick={() => handleClick('typescript')}
       >
         Typescript
