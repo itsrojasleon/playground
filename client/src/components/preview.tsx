@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { iframeHTML } from 'utils/template';
 // don't use css modules on this file because it's using a special class name to refer the
 // react-resizable element
-import './preview.sass';
+import './styles/preview.sass';
 
 interface PreviewProps {
   code: string;

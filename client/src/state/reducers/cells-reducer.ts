@@ -3,12 +3,23 @@ import { ActionType } from '../action-types';
 import type { Action } from '../actions';
 
 interface CellsState {
-  // loading: boolean;
-  // error: string;
   data: Cell[];
 }
 
-const initialState = { data: [] };
+const initialState: CellsState = {
+  data: [
+    {
+      content: `const App = () => <h1>What is up everybody!</h1>; 
+      
+      render(<App />)
+      render([1,2,3])
+      render({greeting: 'hey there'})
+      render('even regular strings?')`,
+      id: '832a45ce',
+      language: 'javascript',
+    },
+  ],
+};
 
 const cellsReducer = (
   state: CellsState = initialState,
@@ -16,6 +27,7 @@ const cellsReducer = (
 ): CellsState => {
   switch (action.type) {
     case ActionType.INSERT_CELL:
+      console.log(state.data);
       return { data: state.data.concat(action.payload) };
     case ActionType.UPDATE_CELL:
       const { id, content } = action.payload;

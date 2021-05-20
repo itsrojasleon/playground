@@ -1,6 +1,6 @@
 import React from 'react';
 import marked from 'marked';
-import styles from './markdown-preview.module.sass';
+import styles from './styles/markdown-preview.module.sass';
 
 interface MarkdownPreviewProps {
   htmlCode: string;

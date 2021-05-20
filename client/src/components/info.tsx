@@ -1,15 +1,34 @@
-import React from 'react';
-import styles from './info.module.sass';
+import React, { useState } from 'react';
+import Information from './icons/information';
+import styles from './styles/info.module.sass';
 
 const Info = () => {
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
-    <div className={styles.info}>
-      <p>Hey there stranger! 👋</p>
-      <p>
-        This a playground where you can execute Javascript/Typescript and
-        Markdown code!
-      </p>
-    </div>
+    <>
+      {isOpen ? (
+        <section className={styles.info}>
+          <div className={styles.text}>
+            <Information />
+            <div>
+              <p>Hey there stranger! 👋</p>
+              <p>
+                This a playground where you can execute Javascript/Typescript
+                and Markdown code!
+              </p>
+              <p>
+                You can use special function `render` to show something on the
+                screen.
+              </p>
+            </div>
+          </div>
+          <p onClick={() => setIsOpen(false)} className={styles.close}>
+            Close?
+          </p>
+        </section>
+      ) : null}
+    </>
   );
 };
 

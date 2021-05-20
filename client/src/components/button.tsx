@@ -1,5 +1,5 @@
 import React, { ButtonHTMLAttributes } from 'react';
-import styles from './button.module.sass';
+import styles from './styles/button.module.sass';
 
 const Button: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({
   children,

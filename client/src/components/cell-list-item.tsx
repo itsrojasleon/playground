@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CodeEditor from './code-editor';
 import Resizable from './resizable';
 import MarkdownPreview from './markdown-preview';
@@ -8,7 +8,7 @@ import { useActions } from 'hooks/use-actions';
 import { useTypedSelector } from 'hooks/use-typed-selector';
 import type { Cell } from 'state/types';
 import { cumulativeCode } from 'utils/template';
-import styles from './cell-list-item.module.sass';
+import styles from './styles/cell-list-item.module.sass';
 
 interface CellListItemProps {
   cell: Cell;
@@ -17,6 +17,7 @@ interface CellListItemProps {
 const CellListItem: React.FC<CellListItemProps> = ({ cell }) => {
   const { updateCell, createBundle } = useActions();
   const bundle = useTypedSelector((state) => state.bundles[cell.id]);
+  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
     // If the bundle does not exist, create it and then do nothing
@@ -36,7 +37,12 @@ const CellListItem: React.FC<CellListItemProps> = ({ cell }) => {
 
   return (
     <div className={styles.item}>
-      <ActionBar language={cell.language} id={cell.id} />
+      <ActionBar
+        language={cell.language}
+        id={cell.id}
+        isOpen={isOpen}
+        onToggleEditor={() => setIsOpen(!isOpen)}
+      />
       <Resizable key={cell.id} direction="vertical">
         <div
           style={{
@@ -45,15 +51,19 @@ const CellListItem: React.FC<CellListItemProps> = ({ cell }) => {
             flexDirection: 'row',
           }}
         >
-          <Resizable direction="horizontal">
-            <CodeEditor
-              language={cell.language}
-              onChange={(value) => updateCell(cell.id, value)}
-              initialValue={
-                cell.language === 'typescript' ? '// @ts-nocheck' : ''
-              }
-            />
-          </Resizable>
+          {isOpen ? (
+            <Resizable direction="horizontal">
+              <CodeEditor
+                language={cell.language}
+                onChange={(value) => updateCell(cell.id, value)}
+                initialValue={
+                  cell.language === 'typescript'
+                    ? '// @ts-nocheck'
+                    : cell.content
+                }
+              />
+            </Resizable>
+          ) : null}
           {cell.language === 'markdown' ? (
             <MarkdownPreview htmlCode={cell.content} />
           ) : (

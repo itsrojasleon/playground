@@ -4,7 +4,7 @@ import prettier from 'prettier';
 import babelParser from 'prettier/parser-babel';
 import markdownParser from 'prettier/parser-markdown';
 import type { Languages } from 'state/types';
-import styles from './code-editor.module.sass';
+import styles from './styles/code-editor.module.sass';
 
 interface CodeEditorProps {
   initialValue?: string;
@@ -28,6 +28,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     });
 
     monacoEditor.getModel()?.updateOptions({ tabSize: 2 });
+
+    // This is great for the example that is getting displayed when the app loads up
+    // it's gonna format the code
+    onFormatClick();
   };
 
   const onFormatClick = () => {

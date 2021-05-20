@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './header.module.css';
 import AddCell from './add-cell';
+import styles from './styles/header.module.css';
 
 const Header = () => {
   return (

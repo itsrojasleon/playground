@@ -2,7 +2,7 @@ import React from 'react';
 import Button from 'components/button';
 import { useActions } from 'hooks/use-actions';
 import type { Languages } from 'state/types';
-import styles from './add-cell.module.sass';
+import styles from './styles/add-cell.module.sass';
 
 const AddCell = () => {
   const { insertCell } = useActions();
