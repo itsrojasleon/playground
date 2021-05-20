@@ -1,14 +1,17 @@
-import { combineReducers } from 'redux';
 import { ActionType } from '../action-types';
 import type { Action } from '../actions';
 
 interface BundlesState {
-  loading: boolean;
-  code: string;
-  err: string;
+  [key: string]:
+    | {
+        loading: boolean;
+        code: string;
+        error: string;
+      }
+    | undefined;
 }
 
-const initialState: BundlesState = { loading: false, code: '', err: '' };
+const initialState: BundlesState = {};
 
 const bundlesReducer = (
   state: BundlesState = initialState,
@@ -16,11 +19,28 @@ const bundlesReducer = (
 ): BundlesState => {
   switch (action.type) {
     case ActionType.BUNDLE_START:
-      return { loading: true, err: '', code: '' };
+      return {
+        ...state,
+        [action.payload]: { loading: true, code: '', error: '' },
+      };
     case ActionType.BUNDLE_COMPLETE:
-      return { loading: false, err: '', code: action.payload };
+      return {
+        ...state,
+        [action.payload.id]: {
+          loading: false,
+          code: action.payload.code,
+          error: '',
+        },
+      };
     case ActionType.BUNDLE_ERROR:
-      return { loading: false, err: action.payload, code: '' };
+      return {
+        ...state,
+        [action.payload.id]: {
+          loading: false,
+          code: '',
+          error: action.payload.error,
+        },
+      };
     default:
       return state;
   }

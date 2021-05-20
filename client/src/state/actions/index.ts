@@ -3,16 +3,23 @@ import type { ActionType } from '../action-types';
 
 interface BundleStartAction {
   type: ActionType.BUNDLE_START;
+  payload: string;
 }
 
 interface BundleCompleteAction {
   type: ActionType.BUNDLE_COMPLETE;
-  payload: string;
+  payload: {
+    code: string;
+    id: string;
+  };
 }
 
 interface BundleErrorAction {
   type: ActionType.BUNDLE_ERROR;
-  payload: string;
+  payload: {
+    id: string;
+    error: string;
+  };
 }
 
 export interface InsertCell {
@@ -20,8 +27,17 @@ export interface InsertCell {
   payload: Cell;
 }
 
+export interface UpdateCell {
+  type: ActionType.UPDATE_CELL;
+  payload: {
+    id: string;
+    content: string;
+  };
+}
+
 export type Action =
   | BundleStartAction
   | BundleCompleteAction
   | BundleErrorAction
-  | InsertCell;
+  | InsertCell
+  | UpdateCell;

@@ -3,12 +3,12 @@ import { ActionType } from '../action-types';
 import type { Action } from '../actions';
 
 interface CellsState {
-  loading: boolean;
-  error: string;
+  // loading: boolean;
+  // error: string;
   data: Cell[];
 }
 
-const initialState = { loading: false, error: '', data: [] };
+const initialState = { data: [] };
 
 const cellsReducer = (
   state: CellsState = initialState,
@@ -16,7 +16,15 @@ const cellsReducer = (
 ): CellsState => {
   switch (action.type) {
     case ActionType.INSERT_CELL:
-      return { ...state, data: state.data.concat(action.payload) };
+      return { data: state.data.concat(action.payload) };
+    case ActionType.UPDATE_CELL:
+      const { id, content } = action.payload;
+      return {
+        // ...state,
+        data: state.data.map((cell) => {
+          return cell.id === id ? { ...cell, content: content } : cell;
+        }),
+      };
     default:
       return state;
   }

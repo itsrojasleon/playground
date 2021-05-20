@@ -7,7 +7,7 @@ import type { Languages } from 'state/types';
 import styles from './code-editor.module.sass';
 
 interface CodeEditorProps {
-  initialValue: string;
+  initialValue?: string;
   onChange: (value: string) => void;
   language: Languages;
 }

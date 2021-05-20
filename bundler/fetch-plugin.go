@@ -1,15 +1,13 @@
 package bundler
 
 import (
+	"context"
 	"io/ioutil"
 	"net/http"
 	"path/filepath"
 	"time"
 
-	"context"
-
 	"github.com/evanw/esbuild/pkg/api"
-
 	"github.com/go-redis/cache/v8"
 	"github.com/go-redis/redis/v8"
 )
@@ -44,22 +42,17 @@ var fetchPlugin = func(rawCode string) api.Plugin {
 					}, nil
 				})
 
-			// Check if the information of a main file is already saved within redis
-			build.OnLoad(api.OnLoadOptions{Filter: ".*", Namespace: "unpkg-url"},
-				func(args api.OnLoadArgs) (api.OnLoadResult, error) {
-					var wanted api.OnLoadResult
-					if err := mycache.Get(ctx, args.Path, &wanted); err != nil {
-						return api.OnLoadResult{}, err
-					}
-
-					return wanted, nil
-				},
-			)
-
 			// Describe how to load any main file of a module
 			// It makes a http get request over the site which is `args.Path`
 			build.OnLoad(api.OnLoadOptions{Filter: ".*", Namespace: "unpkg-url"},
 				func(args api.OnLoadArgs) (api.OnLoadResult, error) {
+					// Check if the information of a main file is already saved within redis
+					var storedResult api.OnLoadResult
+					err := mycache.Get(ctx, args.Path, &storedResult)
+					if err == nil {
+						return storedResult, nil
+					}
+
 					resp, err := http.Get(args.Path)
 					if err != nil {
 						return api.OnLoadResult{}, err
@@ -88,6 +81,7 @@ var fetchPlugin = func(rawCode string) api.Plugin {
 						ResolveDir: filepath.Dir(resp.Request.URL.Path),
 					}
 
+					// store result in redis
 					err = mycache.Set(&cache.Item{
 						Ctx:   ctx,
 						Key:   args.Path,
