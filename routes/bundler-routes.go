@@ -50,19 +50,6 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// store it in database
-	// doc := models.Bundle{Code: code, ID: primitive.NewObjectID()}
-
-	// newBundle, err := db.Client.Database("bundles").Collection("bundle").InsertOne(db.Ctx, doc)
-
-	// if err != nil {
-	// 	fmt.Println("some problems", err)
-	// 	http.Error(w, err.Error(), http.StatusBadRequest)
-	// 	return
-	// }
-
-	// fmt.Println(newBundle)
-
 	var m = createBundlerResponse{Message: "bundle created", Result: code}
 	json.NewEncoder(w).Encode(&m)
 }
