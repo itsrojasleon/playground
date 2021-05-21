@@ -19,6 +19,7 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/api/bundler", routes.Create).Methods("POST")
+	r.HandleFunc("/api/playground", routes.CreatePlayground).Methods("POST")
 	r.Use(middlewares.JSONMiddleware)
 
 	fmt.Println("Listening on port 3000")

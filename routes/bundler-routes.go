@@ -8,18 +8,18 @@ import (
 	"github.com/rojasleon/playground/bundler"
 )
 
-type IncomingRequest struct {
+type incomingBundlerReq struct {
 	RawCode  string `json:"rawcode"`
 	Language string `json:"language"`
 }
 
-type OutcomingRequest struct {
+type outcomingBundlerReq struct {
 	Message string `json:"message"`
 	Result  string `json:"result"`
 }
 
 func Create(w http.ResponseWriter, r *http.Request) {
-	var req IncomingRequest
+	var req incomingBundlerReq
 	err := json.NewDecoder(r.Body).Decode(&req)
 
 	if err != nil {
@@ -63,6 +63,6 @@ func Create(w http.ResponseWriter, r *http.Request) {
 
 	// fmt.Println(newBundle)
 
-	var m = OutcomingRequest{Message: "bundle created", Result: code}
+	var m = outcomingBundlerReq{Message: "bundle created", Result: code}
 	json.NewEncoder(w).Encode(&m)
 }
