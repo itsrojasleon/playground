@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ActionType } from '../action-types';
 import type { Action, InsertCell, UpdateCell, DeleteCell } from '../actions';
 import { randomId } from 'utils/helpers';
-import type { Languages } from '../types';
+import type { Cell, Languages } from '../types';
 
 // transpile code using `esbuild` in the server
 // outcoming: `raw code`, incoming: `jsx, tsx, js, ts code`
@@ -55,5 +55,34 @@ export const deleteCell = (id: string): DeleteCell => {
   return {
     type: ActionType.DELETE_CELL,
     payload: id,
+  };
+};
+
+// Create a playground to share with someone else
+// you'll make a playground public
+export const createPlayground = (cells: Cell[]) => {
+  return async (dispatch: Dispatch<Action>) => {
+    dispatch({ type: ActionType.CREATE_PLAYGROUND_START });
+
+    try {
+      interface IncomingRequest {
+        message: string;
+        insertedId: string;
+      }
+
+      const { data } = await axios.post<IncomingRequest>('/api/playground', {
+        cells,
+      });
+
+      dispatch({
+        type: ActionType.CREATE_PLAYGROUND_COMPLETE,
+        payload: data.insertedId,
+      });
+    } catch (err) {
+      dispatch({
+        type: ActionType.CREATE_PLAYGROUND_ERROR,
+        payload: err.response.data,
+      });
+    }
   };
 };

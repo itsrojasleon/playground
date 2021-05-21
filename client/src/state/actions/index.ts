@@ -30,10 +30,29 @@ export interface DeleteCell {
   type: ActionType.DELETE_CELL;
   payload: string;
 }
+
+interface CreatePlaygroundStart {
+  type: ActionType.CREATE_PLAYGROUND_START;
+}
+
+interface CreatePlaygroundComplete {
+  type: ActionType.CREATE_PLAYGROUND_COMPLETE;
+  // The inserted document id
+  payload: string;
+}
+
+interface CreatePlaygroundError {
+  type: ActionType.CREATE_PLAYGROUND_ERROR;
+  payload: string;
+}
+
 export type Action =
   | BundleStartAction
   | BundleCompleteAction
   | BundleErrorAction
   | InsertCell
   | UpdateCell
-  | DeleteCell;
+  | DeleteCell
+  | CreatePlaygroundStart
+  | CreatePlaygroundComplete
+  | CreatePlaygroundError;

@@ -15,10 +15,10 @@ func main() {
 	defer db.Disconnect()
 	fmt.Println("Connected to mongo db")
 
-	// router stuff
 	r := mux.NewRouter()
 
 	r.HandleFunc("/api/bundler", routes.Create).Methods("POST")
+	r.HandleFunc("/api/playground", routes.FetchPlayground).Methods("GET")
 	r.HandleFunc("/api/playground", routes.CreatePlayground).Methods("POST")
 	r.Use(middlewares.JSONMiddleware)
 
