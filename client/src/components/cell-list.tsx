@@ -6,11 +6,11 @@ const CellList = () => {
   const { data } = useTypedSelector((state) => state.cells);
 
   return (
-    <div>
+    <>
       {data.map((cell) => (
         <CellListItem key={cell.id} cell={cell} />
       ))}
-    </div>
+    </>
   );
 };
 

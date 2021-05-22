@@ -6,8 +6,8 @@ import Preview from './preview';
 import ActionBar from './action-bar';
 import { useActions } from 'hooks/use-actions';
 import { useTypedSelector } from 'hooks/use-typed-selector';
-import type { Cell } from 'state/types';
 import { cumulativeCode } from 'utils/template';
+import type { Cell } from 'state/types';
 import styles from './styles/cell-list-item.module.sass';
 
 interface CellListItemProps {
