@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import AddCell from './add-cell';
+import Button from './button';
 import Github from './icons/github';
 import styles from './styles/header.module.css';
 
@@ -12,7 +13,7 @@ const Header = () => {
           Playground
         </Link>
       </h2>
-      <button>Share Playground</button>
+      <p className={styles.share}>Share playground!</p>
       <div className={styles.last}>
         <AddCell />
         <a href="https://github.com/rojasleon/playground" target="_blank">

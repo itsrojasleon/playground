@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useActions } from 'hooks/use-actions';
 import CellList from 'components/cell-list';
+import { Message, ErrorMessage, InfoMessage } from 'components/message';
 import { useTypedSelector } from 'hooks/use-typed-selector';
 
 const Playground = () => {
@@ -13,11 +14,20 @@ const Playground = () => {
     fetchPlayground(id);
   }, [id]);
 
+  if (error)
+    return (
+      <Message>
+        <ErrorMessage error={error} />
+      </Message>
+    );
+
   return (
-    <div>
-      {JSON.stringify(data)}
+    <>
+      <Message>
+        <InfoMessage />
+      </Message>
       <CellList />
-    </div>
+    </>
   );
 };
 

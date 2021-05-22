@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './close.module.sass';
+import styles from '../styles/icons/close.module.sass';
 
 interface AddProps {
   onClick?: () => void;

@@ -14,19 +14,22 @@ const AddCell = () => {
   return (
     <div className={styles.buttons}>
       <Button
-        style={{ backgroundColor: 'orange' }}
+        icon
+        style={{ backgroundColor: 'purple' }}
         onClick={() => handleClick('javascript')}
       >
         Javascript
       </Button>
       <Button
-        style={{ backgroundColor: 'chocolate' }}
+        icon
+        style={{ backgroundColor: 'rebeccapurple' }}
         onClick={() => handleClick('typescript')}
       >
         Typescript
       </Button>
       <Button
-        style={{ backgroundColor: 'coral' }}
+        icon
+        style={{ backgroundColor: 'indigo' }}
         onClick={() => handleClick('markdown')}
       >
         Markdown

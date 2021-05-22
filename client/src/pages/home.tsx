@@ -1,11 +1,13 @@
 import React from 'react';
 import CellList from 'components/cell-list';
-import Info from 'components/info';
+import { Message, InfoMessage } from 'components/message';
 
 const Home = () => {
   return (
     <>
-      <Info />
+      <Message>
+        <InfoMessage />
+      </Message>
       <CellList />
     </>
   );

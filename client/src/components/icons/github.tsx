@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './github.module.sass';
+import styles from '../styles/icons/github.module.sass';
 
 const Github = () => {
   return (
