@@ -6,15 +6,29 @@ interface CellsState {
   loading: boolean;
   data: Cell[];
   error: string;
+  insertedId: string | null;
 }
 
 const initialState: CellsState = {
   loading: false,
   data: [
     {
-      content: `const App = () => <h1>What is up everybody!</h1>; 
+      content: `// This is the default playground :)
+      import { useState } from 'react';
+
+      const App = () => {
+        const [counter, setCounter] = useState(0);
+        
+        return (
+          <div>
+            <button onClick={() => setCounter(counter + 1)}>Increase</button>
+            <p>{counter}</p>
+          </div>
+        );
+      };
       
-      render(<App />)
+      render(<App />);
+      
       render([1,2,3])
       render({greeting: 'hey there'})
       render('even regular strings?')`,
@@ -23,6 +37,7 @@ const initialState: CellsState = {
     },
   ],
   error: '',
+  insertedId: null,
 };
 
 const cellsReducer = (
@@ -46,11 +61,18 @@ const cellsReducer = (
         data: state.data.filter((cell) => cell.id !== action.payload),
       };
     case ActionType.FETCH_PLAYGROUND_START:
-      return { loading: true, data: [], error: '' };
+      return { ...state, loading: true, data: [], error: '' };
     case ActionType.FETCH_PLAYGROUND_COMPLETE:
-      return { loading: false, data: action.payload, error: '' };
+      return { ...state, loading: false, data: action.payload, error: '' };
     case ActionType.FETCH_PLAYGROUND_ERROR:
-      return { loading: false, data: [], error: action.payload };
+      return { ...state, loading: false, data: [], error: action.payload };
+    case ActionType.CREATE_PLAYGROUND_START:
+      // It will make sense to add loading indicators, but nah.
+      return { ...state };
+    case ActionType.CREATE_PLAYGROUND_COMPLETE:
+      return { ...state, insertedId: action.payload };
+    case ActionType.CREATE_PLAYGROUND_ERROR:
+      return { ...state, error: action.payload, insertedId: null };
     default:
       return state;
   }

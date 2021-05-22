@@ -30,6 +30,18 @@
 
 .share
   font-size: 17px
-  &:hover
+  display: flex
+  align-items: center
+  & > p:hover
     cursor: pointer
     text-decoration: underline
+  & > input
+    padding: 8px 10px
+    border: none
+    margin-left: 5px
+    border-radius: 4px
+    font-size: 16px
+    background-color: #474848
+    color: white
+    &:focus
+      outline: none

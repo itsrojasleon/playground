@@ -64,12 +64,12 @@ export const createPlayground = (cells: Cell[]) => {
   return async (dispatch: Dispatch<Action>) => {
     dispatch({ type: ActionType.CREATE_PLAYGROUND_START });
 
-    try {
-      interface IncomingRequest {
-        message: string;
-        insertedId: string;
-      }
+    interface IncomingRequest {
+      message: string;
+      insertedId: string;
+    }
 
+    try {
       const { data } = await axios.post<IncomingRequest>('/api/playground', {
         cells,
       });
