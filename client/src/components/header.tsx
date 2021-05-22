@@ -18,11 +18,12 @@ const Header = () => {
         </Link>
       </h2>
       <div className={styles.share}>
-        {insertedId ? (
-          <input readOnly value={`http://localhost:8080/p/${insertedId}`} />
-        ) : (
-          <p onClick={() => createPlayground(data)}>Share playground!</p>
-        )}
+        {data.length >= 1 &&
+          (insertedId ? (
+            <input readOnly value={`http://localhost:8080/p/${insertedId}`} />
+          ) : (
+            <p onClick={() => createPlayground(data)}>Share playground!</p>
+          ))}
       </div>
 
       <div className={styles.last}>
