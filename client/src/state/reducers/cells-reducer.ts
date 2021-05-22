@@ -3,10 +3,13 @@ import { ActionType } from '../action-types';
 import type { Action } from '../actions';
 
 interface CellsState {
+  loading: boolean;
   data: Cell[];
+  error: string;
 }
 
 const initialState: CellsState = {
+  loading: false,
   data: [
     {
       content: `const App = () => <h1>What is up everybody!</h1>; 
@@ -19,6 +22,7 @@ const initialState: CellsState = {
       language: 'javascript',
     },
   ],
+  error: '',
 };
 
 const cellsReducer = (
@@ -27,19 +31,26 @@ const cellsReducer = (
 ): CellsState => {
   switch (action.type) {
     case ActionType.INSERT_CELL:
-      console.log(state.data);
-      return { data: state.data.concat(action.payload) };
+      return { ...state, data: state.data.concat(action.payload) };
     case ActionType.UPDATE_CELL:
       const { id, content } = action.payload;
       return {
+        ...state,
         data: state.data.map((cell) => {
           return cell.id === id ? { ...cell, content: content } : cell;
         }),
       };
     case ActionType.DELETE_CELL:
       return {
+        ...state,
         data: state.data.filter((cell) => cell.id !== action.payload),
       };
+    case ActionType.FETCH_PLAYGROUND_START:
+      return { loading: true, data: [], error: '' };
+    case ActionType.FETCH_PLAYGROUND_COMPLETE:
+      return { loading: false, data: action.payload, error: '' };
+    case ActionType.FETCH_PLAYGROUND_ERROR:
+      return { loading: false, data: [], error: action.payload };
     default:
       return state;
   }

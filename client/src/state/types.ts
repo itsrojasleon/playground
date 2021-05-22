@@ -6,3 +6,10 @@ export interface Cell {
   language: Languages;
   content: string;
 }
+
+export interface Playground {
+  _id: string;
+  updatedAt: Date;
+  creatdeAt: Date;
+  cells: Cell[];
+}

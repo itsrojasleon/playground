@@ -46,6 +46,20 @@ interface CreatePlaygroundError {
   payload: string;
 }
 
+interface FetchPlaygroundStart {
+  type: ActionType.FETCH_PLAYGROUND_START;
+}
+
+interface FetchPlaygroundComplete {
+  type: ActionType.FETCH_PLAYGROUND_COMPLETE;
+  payload: Cell[];
+}
+
+interface FetchPlaygroundError {
+  type: ActionType.FETCH_PLAYGROUND_ERROR;
+  payload: string;
+}
+
 export type Action =
   | BundleStartAction
   | BundleCompleteAction
@@ -55,4 +69,7 @@ export type Action =
   | DeleteCell
   | CreatePlaygroundStart
   | CreatePlaygroundComplete
-  | CreatePlaygroundError;
+  | CreatePlaygroundError
+  | FetchPlaygroundStart
+  | FetchPlaygroundComplete
+  | FetchPlaygroundError;

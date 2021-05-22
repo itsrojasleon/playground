@@ -3,7 +3,7 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 const Home = lazy(() => import('./pages/home'));
-// const Bundle = lazy(() => import('./pages/bundle'));
+const Playground = lazy(() => import('./pages/playground'));
 
 const App = () => {
   return (
@@ -13,7 +13,7 @@ const App = () => {
         <div style={{ width: '95%', margin: 'auto' }}>
           <Suspense fallback={<h1>Loading...</h1>}>
             <Switch>
-              {/* <Route path="/bundles/:id" component={Bundle} /> */}
+              <Route path="/p/:id" component={Playground} />
               <Route path="/" component={Home} />
             </Switch>
           </Suspense>

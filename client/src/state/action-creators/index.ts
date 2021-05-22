@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ActionType } from '../action-types';
 import type { Action, InsertCell, UpdateCell, DeleteCell } from '../actions';
 import { randomId } from 'utils/helpers';
-import type { Cell, Languages } from '../types';
+import type { Cell, Languages, Playground } from '../types';
 
 // transpile code using `esbuild` in the server
 // outcoming: `raw code`, incoming: `jsx, tsx, js, ts code`
@@ -81,6 +81,33 @@ export const createPlayground = (cells: Cell[]) => {
     } catch (err) {
       dispatch({
         type: ActionType.CREATE_PLAYGROUND_ERROR,
+        payload: err.response.data,
+      });
+    }
+  };
+};
+
+export const fetchPlayground = (id: string) => {
+  return async (dispatch: Dispatch<Action>) => {
+    dispatch({ type: ActionType.FETCH_PLAYGROUND_START });
+
+    interface IncomingRequest {
+      message: string;
+      playground: Playground;
+    }
+
+    try {
+      const { data } = await axios.get<IncomingRequest>(
+        `/api/playground?p=${id}`,
+      );
+
+      dispatch({
+        type: ActionType.FETCH_PLAYGROUND_COMPLETE,
+        payload: data.playground.cells,
+      });
+    } catch (err) {
+      dispatch({
+        type: ActionType.FETCH_PLAYGROUND_ERROR,
         payload: err.response.data,
       });
     }
