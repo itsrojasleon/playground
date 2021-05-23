@@ -3,6 +3,7 @@ module github.com/rojasleon/playground
 go 1.16
 
 require (
+	github.com/GeertJohan/go.rice v1.0.2 // indirect
 	github.com/evanw/esbuild v0.11.15
 	github.com/go-redis/cache v6.4.0+incompatible // indirect
 	github.com/go-redis/cache/v8 v8.4.1 // indirect

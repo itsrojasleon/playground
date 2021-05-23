@@ -1,4 +1,4 @@
-import type { Cell } from 'state/types';
+import type { Cell } from '../types';
 import { ActionType } from '../action-types';
 import type { Action } from '../actions';
 
@@ -63,6 +63,7 @@ const cellsReducer = (
     case ActionType.FETCH_PLAYGROUND_START:
       return { ...state, loading: true, data: [], error: '' };
     case ActionType.FETCH_PLAYGROUND_COMPLETE:
+      console.log(action.payload);
       return { ...state, loading: false, data: action.payload, error: '' };
     case ActionType.FETCH_PLAYGROUND_ERROR:
       return { ...state, loading: false, data: [], error: action.payload };

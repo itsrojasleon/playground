@@ -10,6 +10,7 @@ const CellList = () => {
       {data.map((cell) => (
         <CellListItem key={cell.id} cell={cell} />
       ))}
+      {!data.length && <p>No cells were found. Add one by yourself!</p>}
     </>
   );
 };

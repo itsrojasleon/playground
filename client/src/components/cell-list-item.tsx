@@ -28,7 +28,7 @@ const CellListItem: React.FC<CellListItemProps> = ({ cell }) => {
 
     const timer = window.setTimeout(() => {
       createBundle(cell.id, cumulativeCode(cell.content), cell.language);
-    }, 2000);
+    }, 1000);
 
     return () => {
       window.clearTimeout(timer);
