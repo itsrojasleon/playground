@@ -11,7 +11,6 @@ import (
 
 var Client *mongo.Client
 
-// var Ctx, _ = context.WithTimeout(context.Background(), 10*time.Second)
 var Ctx = context.Background()
 var err error
 

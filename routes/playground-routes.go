@@ -41,9 +41,9 @@ func CreatePlayground(w http.ResponseWriter, r *http.Request) {
 		UpdatedAt: time.Now(),
 	}
 
-	// Go to the bundles database, then to the playground collection and insert a
+	// Go to the playground database, then to the playground collection and insert a
 	// document within that collection
-	playground, err := db.Client.Database("bundles").Collection("playground").InsertOne(db.Ctx, document)
+	playground, err := db.Client.Database("playground").Collection("playground").InsertOne(db.Ctx, document)
 
 	// Errors inserting the bson document?
 	if err != nil {
@@ -83,7 +83,7 @@ func FetchPlayground(w http.ResponseWriter, r *http.Request) {
 
 	var playground models.Playground
 
-	err = db.Client.Database("bundles").Collection("playground").FindOne(db.Ctx, filter).Decode(&playground)
+	err = db.Client.Database("playground").Collection("playground").FindOne(db.Ctx, filter).Decode(&playground)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
