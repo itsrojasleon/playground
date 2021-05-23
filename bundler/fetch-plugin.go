@@ -4,6 +4,7 @@ import (
 	"context"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"path/filepath"
 	"time"
 
@@ -14,7 +15,7 @@ import (
 
 var ctx = context.TODO()
 var rdb = redis.NewClient(&redis.Options{
-	Addr: "localhost:6379",
+	Addr: os.Getenv("REDIS_URL"),
 })
 var mycache = cache.New(&cache.Options{
 	Redis: rdb,

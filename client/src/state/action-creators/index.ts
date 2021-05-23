@@ -1,11 +1,11 @@
-import type { Dispatch } from 'redux';
 import axios from 'axios';
-import { ActionType } from '../action-types';
+import type { Dispatch } from 'redux';
 import type { Action, InsertCell, UpdateCell, DeleteCell } from '../actions';
-import { randomId } from 'utils/helpers';
 import type { Cell, Languages, Playground } from '../types';
+import { ActionType } from '../action-types';
+import { randomId } from 'utils/helpers';
 
-// transpile code using `esbuild` in the server
+// Transpile code using `esbuild` in the server
 // outcoming: `raw code`, incoming: `jsx, tsx, js, ts code`
 export const createBundle = (
   id: string,
@@ -14,11 +14,17 @@ export const createBundle = (
 ) => {
   return async (dispatch: Dispatch<Action>) => {
     dispatch({ type: ActionType.BUNDLE_START, payload: id });
+
+    interface IncomingRequest {
+      message: string;
+      result: string;
+    }
+
     try {
-      const { data } = await axios.post<{ message: string; result: string }>(
-        '/api/bundler',
-        { rawcode, language },
-      );
+      const { data } = await axios.post<IncomingRequest>('/api/bundler', {
+        rawcode,
+        language,
+      });
 
       dispatch({
         type: ActionType.BUNDLE_COMPLETE,
@@ -33,7 +39,7 @@ export const createBundle = (
   };
 };
 
-// insert a code/markdown cell right after a previous one if exists
+// Insert a code/markdown cell right after a previous one if exists
 export const insertCell = (
   language: Languages,
   content: string,

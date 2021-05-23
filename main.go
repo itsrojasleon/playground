@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
-	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 	"github.com/rojasleon/playground/db"
 	"github.com/rojasleon/playground/routes"
 )
@@ -56,6 +57,8 @@ func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	godotenv.Load()
+
 	db.Connect()
 	defer db.Disconnect()
 	fmt.Println("Connected to mongo db")
@@ -69,13 +72,6 @@ func main() {
 	spa := spaHandler{staticPath: "client/build", indexPath: "index.html"}
 	r.PathPrefix("/").Handler(spa)
 
-	srv := &http.Server{
-		Handler:      r,
-		Addr:         "127.0.0.1:3000",
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
-	}
-
 	fmt.Println("Listening on port 3000")
-	srv.ListenAndServe()
+	log.Fatal(http.ListenAndServe(":3000", r))
 }
