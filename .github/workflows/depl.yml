@@ -9,8 +9,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: cd client && npm install && npm run build
       - uses: actions/checkout@v2
+      - name: prod-version
+        working-directory: ./client
+        run: npm install && npm run build
+      - name: heroku
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
