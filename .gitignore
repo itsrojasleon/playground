@@ -20,3 +20,4 @@ test.go
 .env
 
 out.json
+main
