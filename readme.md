@@ -11,3 +11,5 @@ Some notes:
 ### Load callbacks
 
 A callback added using onLoad will be run for each unique path/namespace pair that has not been marked as external. Its job is to return the contents of the module and to tell esbuild how to interpret it.
+
+Using docker with snowpack is a pain!

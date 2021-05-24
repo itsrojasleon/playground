@@ -1,0 +1,21 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: cd client && npm install && npm run build
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "playground-prod" #Must be unique in Heroku
+          heroku_email: "rojasleon.dev@gmail.com"
+        env:
+          HD_MONGO_URI: ${{secrets.MONGO_URI}}
+          HD_REDIS_URL: ${{secrets.REDIS_URL}}
