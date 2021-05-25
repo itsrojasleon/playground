@@ -59,6 +59,8 @@ func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func main() {
 	godotenv.Load()
 
+	port := os.Getenv("PORT")
+
 	db.Connect()
 	defer db.Disconnect()
 	fmt.Println("Connected to mongo db")
@@ -72,6 +74,6 @@ func main() {
 	spa := spaHandler{staticPath: "client/build", indexPath: "index.html"}
 	r.PathPrefix("/").Handler(spa)
 
-	fmt.Println("Listening on port 3000")
-	log.Fatal(http.ListenAndServe(":3000", r))
+	fmt.Println("Listening on port", port)
+	log.Fatal(http.ListenAndServe(port, r))
 }
