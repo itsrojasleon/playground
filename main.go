@@ -61,6 +61,10 @@ func main() {
 
 	port := os.Getenv("PORT")
 
+	if port == "" {
+		port = "3000"
+	}
+
 	db.Connect()
 	defer db.Disconnect()
 	fmt.Println("Connected to mongo db")
