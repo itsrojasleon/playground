@@ -18,7 +18,7 @@ jobs:
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "playground-prod"
+          heroku_app_name: "justdeleteme"
           heroku_email: "rojasleon.dev@gmail.com"
         env:
           HD_MONGO_URI: ${{secrets.MONGO_URI}}

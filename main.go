@@ -74,6 +74,6 @@ func main() {
 	spa := spaHandler{staticPath: "client/build", indexPath: "index.html"}
 	r.PathPrefix("/").Handler(spa)
 
-	fmt.Println("Listening on port", port)
+	fmt.Println("Listening on port", ":"+port)
 	log.Fatal(http.ListenAndServe(port, r))
 }
