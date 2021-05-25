@@ -1,1 +1,1 @@
-web: bin/playground-prod
+web: bin/playground
