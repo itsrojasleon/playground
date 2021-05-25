@@ -1,1 +1,1 @@
-web: bin/playground
+web: playground
