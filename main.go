@@ -75,7 +75,7 @@ func main() {
 	r.HandleFunc("/api/playground", routes.FetchPlayground).Methods("GET")
 	r.HandleFunc("/api/playground", routes.CreatePlayground).Methods("POST")
 
-	spa := spaHandler{staticPath: "client/build", indexPath: "index.html"}
+	spa := spaHandler{staticPath: "build", indexPath: "index.html"}
 	r.PathPrefix("/").Handler(spa)
 
 	fmt.Println("Listening on port", port)
