@@ -20,6 +20,7 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "playground-prod"
           heroku_email: "rojasleon.dev@gmail.com"
+          buildpack: https://github.com/heroku/heroku-buildpack-static.git
         env:
           HD_MONGO_URI: ${{secrets.MONGO_URI}}
           HD_REDIS_URL: ${{secrets.REDIS_URL}}
