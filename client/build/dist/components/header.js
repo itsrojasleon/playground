@@ -1,3 +1,5 @@
+import * as __SNOWPACK_ENV__ from '../../_snowpack/env.js';
+
 import React from "../../_snowpack/pkg/react.js";
 import {Link} from "../../_snowpack/pkg/react-router-dom.js";
 import AddCell from "./add-cell.js";
@@ -17,7 +19,7 @@ const Header = () => {
     className: styles.share
   }, data.length >= 1 && (insertedId ? /* @__PURE__ */ React.createElement("input", {
     readOnly: true,
-    value: `http://localhost:8080/p/${insertedId}`
+    value: `${__SNOWPACK_ENV__.NODE_ENV === "production" ? "playground-prod.herokuapp.com" : "http://localhost:8080"}/p/${insertedId}`
   }) : /* @__PURE__ */ React.createElement("p", {
     onClick: () => createPlayground(data)
   }, "Share playground!"))), /* @__PURE__ */ React.createElement("div", {

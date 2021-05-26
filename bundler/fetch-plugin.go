@@ -16,7 +16,7 @@ import (
 var ctx = context.TODO()
 var rdb = redis.NewClient(&redis.Options{
 	Addr:     os.Getenv("REDIS_URL"),
-	Password: "",
+	Password: "password",
 })
 var mycache = cache.New(&cache.Options{
 	Redis: rdb,
