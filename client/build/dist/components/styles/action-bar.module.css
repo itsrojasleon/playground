@@ -1,0 +1,26 @@
+._bar_19rsu_1 {
+  display: flex;
+  justify-content: space-between;
+  text-align: right;
+  background-color: #101010;
+  padding: 5px 15px;
+}
+
+._lang_19rsu_9 {
+  font-weight: bolder;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+._options_19rsu_15 {
+  display: flex;
+  align-items: center;
+}
+
+._hide_19rsu_20 {
+  margin-right: 10px;
+}
+._hide_19rsu_20:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

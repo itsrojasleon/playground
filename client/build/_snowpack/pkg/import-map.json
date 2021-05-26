@@ -1,0 +1,17 @@
+{
+  "imports": {
+    "@monaco-editor/react": "./@monaco-editor/react.js",
+    "axios": "./axios.js",
+    "marked": "./marked.js",
+    "prettier": "./prettier.js",
+    "prettier/parser-babel": "./prettier/parser-babel.js",
+    "prettier/parser-markdown": "./prettier/parser-markdown.js",
+    "react": "./react.js",
+    "react-dom": "./react-dom.js",
+    "react-redux": "./react-redux.js",
+    "react-resizable": "./react-resizable.js",
+    "react-router-dom": "./react-router-dom.js",
+    "redux": "./redux.js",
+    "redux-thunk": "./redux-thunk.js"
+  }
+}

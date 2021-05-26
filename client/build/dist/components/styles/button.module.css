@@ -1,0 +1,19 @@
+._button_18zcc_1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  border: none;
+  padding: 4px 15px;
+  border-radius: 3px;
+  color: white;
+  transition: all 0.3s;
+}
+._button_18zcc_1:hover {
+  cursor: pointer;
+  transform: scale(1.07);
+}
+
+._icon_18zcc_17 {
+  margin-left: 3px;
+}

@@ -1,0 +1,25 @@
+._info_80ils_1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #101010;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+._text_80ils_11 {
+  display: flex;
+  align-items: center;
+}
+._text_80ils_11 > p {
+  font-size: 17px;
+}
+
+._close_80ils_19 {
+  font-size: 17px;
+}
+._close_80ils_19:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

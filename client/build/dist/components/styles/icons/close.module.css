@@ -1,0 +1,9 @@
+._close_1kp5a_1 {
+  width: 23px;
+  height: 23px;
+  transition: all 0.2s;
+}
+._close_1kp5a_1:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
