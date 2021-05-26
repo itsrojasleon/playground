@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  react-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,12 +15,16 @@ jobs:
         run: |
           npm install
           npm run build
+
+  go-build:
+    needs: react-build
+    runs-on: ubuntu-latest
+    steps:
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "playground-prod"
           heroku_email: "rojasleon.dev@gmail.com"
-          buildpack: https://github.com/heroku/heroku-buildpack-static.git
         env:
           HD_MONGO_URI: ${{secrets.MONGO_URI}}
           HD_REDIS_URL: ${{secrets.REDIS_URL}}
